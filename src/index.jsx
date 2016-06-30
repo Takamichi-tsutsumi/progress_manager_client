@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, hashHistory } from 'react-router';
+import { Router, browserHistory } from 'react-router';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import routes from './routes';
+import rootReducer from './reducers';
+import promise from 'redux-promise';
 
-class App extends Component {
-  constructor(props, context) {
-    super(props, context)
-  }
-  
-  render() {
-    return (
-      <div>Hello from react-redux</div>
-    )
-  }
-}
+const createStoreWithMiddleware = applyMiddleware(
+  promise
+)(createStore);
+
 
 ReactDOM.render(
-  <App />,
-  document.querySelector('#root')
+  <Provider store={ createStoreWithMiddleware(rootReducer) }>
+    <Router history={ browserHistory } routes={ routes }/>
+  </Provider>
+  , document.querySelector('#root')
 );
