@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { logIn } from '../../actions/auth.js';
 
-export default class LogIn extends Component {
+class LogIn extends Component {
   constructor(props) {
     super(props)
   }
@@ -12,21 +14,26 @@ export default class LogIn extends Component {
   }
 
   render() {
-    // const { auth } = this.props;
     return(
       <div>
         <h1>Log in</h1>
-        <form onSubmit={ this.handleSubmit.bind(this) }>
-          <input type="text" name="email" required placeholder="Email" />
-          <input type="password" name="password" required placeholder="Password" />
+        <input type="text" name="email" required placeholder="Email" />
+        <input type="password" name="password" required placeholder="Password" />
 
-          {
-            this.props.auth.isRequesting ?
-              <Loading /> :
-              <button type="submit">Send</button>
-          }
-        </form>
+        {
+          this.props.auth.isRequesting ?
+            <Loading /> :
+            <button onClick={ this.handleSubmit.bind(this) }>Send</button>
+        }
       </div>
     )
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    auth: state.auth
+  }
+}
+
+export default connect(mapStateToProps, { logIn })( LogIn )

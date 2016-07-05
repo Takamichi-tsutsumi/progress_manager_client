@@ -33,4 +33,4 @@ const mapStateToProps = state => {
   return { auth: state.auth }
 };
 
-export default connect(mapStateToProps, { logIn })(UserOnly);
+export default connect(mapStateToProps, { logIn })( UserOnly );
